@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Main page</title>
+</head>
+<body>
+<div>
+  <th:block th:each="msg : ${messages}">
+    <h1 th:text="${msg}"></h1>
+  </th:block>
+</div>
+<div>
+  <h3>Press button to see all users</h3>
+</div>
+<form th:method="GET" th:action="@{/users}">
+  <p><input type="submit" value="Get all users" name="Get all users"></p>
+</form>
+<div>
+  <h3>Press button to add new user</h3>
+</div>
+</hr>
+<form th:method="GET" th:action="@{/add}">
+  <p><input type="submit" value="Add new user" name="Add new user"></p>
+</form>
+</body>
+</html>
