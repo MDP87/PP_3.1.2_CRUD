@@ -17,15 +17,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import ru.crud.crud_312.model.User;
-import ru.crud.crud_312.service.UserServiceImp;
+import ru.crud.crud_312.service.UserService;
+
 
 @Controller
 @RequestMapping("/")
 public class UserController {
-  private final UserServiceImp userServiceImp;
+  private final UserService userService;
   @Autowired
-  public UserController (UserServiceImp userServiceImp) {
-    this.userServiceImp = userServiceImp;
+  public UserController (UserService userService) {
+    this.userService = userService;
   }
 
   @GetMapping(value = "/")
@@ -38,7 +39,7 @@ public class UserController {
 
   @GetMapping("/users")
   public String showAllUsers(Model model) {
-    List<User> list = userServiceImp.findAll();
+    List<User> list = userService.findAll();
     model.addAttribute("users", list);
     return "users";
   }
@@ -52,25 +53,25 @@ public class UserController {
     if (bindingResult.hasErrors())
       return "add";
 
-    userServiceImp.save(user);
+    userService.save(user);
     return "redirect:/users";
   }
   @GetMapping("/update/{id}")
   public String editUser(@PathVariable("id") long id, Model model) {
-    model.addAttribute("user", userServiceImp.findById(id));
+    model.addAttribute("user", userService.findById(id));
     return "update";
   }
   @PatchMapping("/user/{id}")
   public String updateUser(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, @PathVariable("id") long id ) {
     if (bindingResult.hasErrors())
       return "update";
-    userServiceImp.updateUser(id, user);
+    userService.updateUser(id, user);
 
     return "redirect:/users";
   }
   @DeleteMapping("/delete/{id}")
   public String deleteUser(@PathVariable("id") long id) {
-    userServiceImp.delete(id);
+    userService.delete(id);
     return "redirect:/users";
   }
 
